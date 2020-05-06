@@ -17,6 +17,9 @@ for rodada in range(1,total_de_tentativas + 1):
 
     if(acertou):
         print("Parabéns! Você acertou!")
+        #com o break ele sai do laco
+        break
+
     else:
         if(maior):
             print("O seu chute foi maior do que o número secreto!")
