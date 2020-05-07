@@ -81,3 +81,9 @@ def jogar():
     
     '''
 
+# a variavel __name__ (construtora) é criada internamente pelo python toda as vezes que ele é executado diretamente.
+# assim, quando executamos um programa diretamente, conseguimos solicitar que ele execute alguma função própria.
+# como na execução abaixo. Caso isso não exista no programa, ao executa-lo nada será apresentado.
+
+if (__name__ == "__main__"):
+    jogar()
