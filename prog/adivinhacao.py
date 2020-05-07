@@ -59,6 +59,21 @@ for rodada in range(1,total_de_tentativas + 1):
         pontos = pontos - pontos_perdidos
 
 
-
-
 print("Fim do jogo")
+
+'''
+Anotações interessantes:
+    
+    A função round (que serve para arredondar) é diferente no python2 e 3.
+    no 3, ela usa o banker's routing, que basicamente sempre arredonda para um numero par, e volta um int
+    no 2, ela arredonda para o mais proximo procurando 0, e volta um float
+    
+    Ex:
+        python3: round(3.5) | resultado: 4
+        python2: round(3.5) | resultado: 4.0
+        
+        python3: round(4.5) | resultado: 4
+        python2: round(4.5) | resultado: 5.0   
+
+'''
+
