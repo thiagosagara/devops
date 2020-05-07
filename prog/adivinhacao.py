@@ -1,7 +1,13 @@
+import random
+
 print("*********************************")
 print("Bem vindo ao jogo de Adivinhação!")
 print("*********************************")
-numero_secreto = 42
+# O random é um modulo pseudo-randomico, onde ele pega a hora como semente.
+# é possivel ainda usarmos a função seed dele para fixar uma semente, como em:
+# randon.seed(100)
+#
+numero_secreto = random.randrange(1,101)
 total_de_tentativas = 3
 
 for rodada in range(1,total_de_tentativas + 1):
