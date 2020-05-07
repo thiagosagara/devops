@@ -5,7 +5,7 @@ print("Bem vindo ao jogo de Adivinhação!")
 print("*********************************")
 # O random é um modulo pseudo-randomico, onde ele pega a hora como semente.
 # é possivel ainda usarmos a função seed dele para fixar uma semente, como em:
-# randon.seed(100)
+# randon.seed(100)f
 #
 numero_secreto = random.randrange(1,101)
 total_de_tentativas = 3
