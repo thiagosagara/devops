@@ -18,7 +18,8 @@ def jogar():
             marca_chute_correto(chute,letras_acertadas,palavra_secreta)
         else:
             erros += 1
-            print("Ops, você errou! Faltam {} tentativas.".format(6 - erros))
+            #print("Ops, você errou! Faltam {} tentativas.".format(6 - erros))
+            desenha_forca(erros)
 
         enforcou = erros == 6
         acertou = "_" not in letras_acertadas
@@ -114,6 +115,55 @@ def imprime_msg_perdedor(palavra_secreta):
     print("     \_         _/         ")
     print("       \_______/           ")
 
+def desenha_forca(erros):
+    print("  _______     ")
+    print(" |/      |    ")
+
+    if(erros == 1):
+        print(" |      (_)   ")
+        print(" |            ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 2):
+        print(" |      (_)   ")
+        print(" |      \     ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 3):
+        print(" |      (_)   ")
+        print(" |      \|    ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 4):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 5):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |            ")
+
+    if(erros == 6):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |      /     ")
+
+    if (erros == 7):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |      / \   ")
+
+    print(" |            ")
+    print("_|___         ")
+    print()
 
 if (__name__ == "__main__"):
     jogar()
