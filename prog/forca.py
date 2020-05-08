@@ -4,8 +4,14 @@ def jogar():
     print("***Bem vindo ao jogo da Forca!***")
     print("*********************************")
 
-    palavra_secreta = "banana".upper()
-    letras_acertadas = ["_", "_", "_", "_", "_", "_"]
+    #adicionado o upper na palabra secreta
+    palavra_secreta = "one".upper()
+    #usando o list comprehension
+    letras_acertadas = ["_" for letra in palavra_secreta]
+
+    #outro jeito é fazer do modo tradicional
+    #for letra in palavra_secreta:
+    #    letras_acertadas.append("_")
 
     #usando a variavel do tipo bool
     enforcou = False
@@ -18,6 +24,7 @@ def jogar():
 
         chute = input("Digite a letra: ")
         #o strip remove os espaços em branco
+        #alteramos o chute do usuario para tudo em maiusculas
         chute = chute.strip().upper()
 
         if (chute in palavra_secreta):
@@ -31,6 +38,7 @@ def jogar():
                 index += 1
         else:
             erros += 1
+            print("Ops, você errou! Faltam {} tentativas.".format(6 - erros))
 
         enforcou = erros == 6
         acertou = "_" not in letras_acertadas
@@ -51,4 +59,32 @@ Anotações:
     palavra = palavra.capitalize()
     print(palavra) | resultado: Thiago
 
+    Na list comphension tb é possivel usar o if, como em:
+    
+    inteiros = [1,3,4,5,7,8,9]
+    pares = [x for x in inteiros if x % 2 == 0]
+    As linhas acima adicionariam apenas os pares na lista 'pares', da maneira tradicional ficaria:
+    
+    inteiros = [1,3,4,5,7,8,9]
+    pares = []
+    for numero in inteiros:
+        if numero % 2 == 0:
+            pares.append(numero)
+    
+    Arquivos:
+        open("arquivo",tipo) | open("arquivo.txt", "w")
+        sendo que:
+            a - ele vai adicionar coisas no arquivo
+            w - ele vai sobreescrever o conteudo no arquivo
+            r - ele vai apenas ler o arquivo
+            b - ele vai usar binario para abrir o arquivo (para uma imagem por exemplo)
+                
+        também é possivel adicionar o \n para dar um newline.
+        exemplo:
+            arquivo = open("palavras.txt", "a")
+            arquivo.write("morango\n")
+            arquivo.write("manga\n")
+        Para fechar:
+            arquivo.close()
+    
 '''
