@@ -1,17 +1,37 @@
 
+import random
+
 def jogar():
     print("*********************************")
     print("***Bem vindo ao jogo da Forca!***")
     print("*********************************")
 
     #adicionado o upper na palabra secreta
-    palavra_secreta = "one".upper()
+    #palavra_secreta = "one".upper()
     #usando o list comprehension
-    letras_acertadas = ["_" for letra in palavra_secreta]
+    #letras_acertadas = ["_" for letra in palavra_secreta]
 
     #outro jeito é fazer do modo tradicional
     #for letra in palavra_secreta:
     #    letras_acertadas.append("_")
+
+    arquivo = open("palavras.txt", "r")
+    palavras = []
+
+    for linha in arquivo:
+        linha = linha.strip()
+        #adiciona tudo no txt para uma lista
+        palavras.append(linha)
+
+    arquivo.close()
+
+    # com base no tamano da lista (len(palavras)), ele escolhe randomicamente a palavra
+    numero = random.randrange(0, len(palavras))
+
+    #com base no numero (index), ele cria a instancia ja com a letra em maiuscula
+    palavra_secreta = palavras[numero].upper()
+    letras_acertadas = ["_" for letra in palavra_secreta]
+
 
     #usando a variavel do tipo bool
     enforcou = False
@@ -23,7 +43,7 @@ def jogar():
     while (not acertou and not enforcou):
 
         chute = input("Digite a letra: ")
-        #o strip remove os espaços em branco
+        #o strip remove os espaços em branco e caracteres especiais (como o \n)
         #alteramos o chute do usuario para tudo em maiusculas
         chute = chute.strip().upper()
 
