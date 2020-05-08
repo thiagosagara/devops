@@ -4,12 +4,13 @@ def jogar():
     print("***Bem vindo ao jogo da Forca!***")
     print("*********************************")
 
-    palavra_secreta = "banana"
+    palavra_secreta = "banana".upper()
     letras_acertadas = ["_", "_", "_", "_", "_", "_"]
 
     #usando a variavel do tipo bool
     enforcou = False
     acertou = False
+    erros = 0
 
     print(letras_acertadas)
 
@@ -17,19 +18,28 @@ def jogar():
 
         chute = input("Digite a letra: ")
         #o strip remove os espaços em branco
-        chute = chute.strip()
+        chute = chute.strip().upper()
 
-        index = 0
-        for letra in palavra_secreta:
-            #upper serve para coloca todas as letras em maiuscula
-            if(chute.upper() == letra.upper()):
-                # Nessa proxima linha ele vai substituir a letra (ou o chute (vai dar na mesma))
-                # pelo "_" correspondente
-                letras_acertadas[index] = letra
-            index = index + 1
+        if (chute in palavra_secreta):
+            index = 0
+            for letra in palavra_secreta:
+                #upper serve para coloca todas as letras em maiuscula
+                if(chute == letra):
+                    # Nessa proxima linha ele vai substituir a letra (ou o chute (vai dar na mesma))
+                    # pelo "_" correspondente
+                    letras_acertadas[index] = letra
+                index += 1
+        else:
+            erros += 1
+
+        enforcou = erros == 6
+        acertou = "_" not in letras_acertadas
         print(letras_acertadas)
 
-    print("Fim do jogo")
+    if (acertou):
+        print("Você ganhou!")
+    else:
+        print("Você perdeu!")
 
 if (__name__ == "__main__"):
     jogar()
