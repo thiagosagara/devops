@@ -21,7 +21,7 @@ def jogar():
             #print("Ops, você errou! Faltam {} tentativas.".format(6 - erros))
             desenha_forca(erros)
 
-        enforcou = erros == 6
+        enforcou = erros == 7
         acertou = "_" not in letras_acertadas
         print(letras_acertadas)
 
