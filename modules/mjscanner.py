@@ -15,7 +15,10 @@ import json
 import socket
 import napalm
 import nmap
+import time, sys, os, subprocess
 from snmp_cmds import Session, snmpwalk
+from pprint import pprint
+from datetime import datetime
 
 
 #Classe self
@@ -23,15 +26,64 @@ class Begin:
     def __init__(self):
         pass
 
+
+
 class TryIcmp():
     '''
     recebe        -> rede
     processa      -> pinga    a    rede    toda
     devolve       -> lista    up | lista    down
     '''
-    def __init__(self):
-        pass
+    def __init__(self, dbug):
+        # Variavel para debug
+        self.dbug = dbug
 
+    def load_ics(self, devices_filename = 'devices'):
+
+        if self.dbug == 1:
+            print('[INFO] - Carrega o arquivo com os ICs')
+
+        devices = {}
+        # Abre o arquivo que contem os equipamentos
+        with open( devices_filename ) as device_file:
+            for device_line in device_file:
+                # Cria uma lista com os equips (colocando todos em UP.
+                ic_info = list(map(str.upper, device_line.strip().split(',')))
+
+
+                # Cria um dicionario secundario para cada equipamento no arquivo
+                # na linha abaixo, ele joga esta informacao no dicionario criado no comeco da funcao
+                ic = {
+                    "name":ic_info[0],
+                    "ipaddr":ic_info[1],
+                    "dev_type": ic_info[2],
+                    "username": ic_info[3],
+                    "password": ic_info[4],
+                    "acc_method": ic_info[5]
+                }
+
+                if self.dbug == 1:
+                    print('[INFO] - Carregado as informações de um ic da lista')
+                elif self.dbug == 2:
+                    print('[INFO] - Carregado as informações de um ic da lista')
+                    print('[DEBUG] - Informações do IC: \n\t{0} \n\t{1} \n\t{2} \n\t{3} \n\t{4} \n\t{5} \n\t{6}'
+                          .format(ic_info[0],ic_info[1],ic_info[2],ic_info[3],ic_info[4],ic_info[5],ic_info[6]))
+
+                devices[ic['ipaddr']] = ic
+
+        if self.dbug == 1:
+            print('[INFO] - lista de equipamentos')
+            print( devices )
+
+        return devices
+
+
+
+    def shoot_icmp(self):
+
+
+
+        pass
 
 
 class TrySnmp():
