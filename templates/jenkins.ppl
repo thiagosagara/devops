@@ -1,0 +1,135 @@
+pipeline {
+  environment {
+    json_temp = "tmp/${BUILD_ID}_app.json"
+  }
+  agent any
+
+  stages {
+    stage('Criando ambiente de testes'){
+      steps {
+        writeFile file: json_temp, text: 'Aqui vai ser json'
+        sh 'echo version := 1.0.$BUILD_ID'
+      }
+    }
+    stage('Teste unitário grupo 01') {
+	  parallel {
+	    stage('BI') {
+		  steps {
+		    echo "Teste BI"
+			sh 'python3 mjping.py -l BI'
+		  }
+		}
+	    stage('CRM') {
+		  steps {
+		    echo "Teste CRM"
+			sh 'python3 mjping.py -l CRM'
+		  }
+		}
+	    stage('DMS') {
+		  steps {
+		    echo "Teste DMS"
+			sh 'python3 mjping.py -l DMS'
+		  }
+		}
+	    stage('ECC') {
+		  steps {
+		    echo "Teste ECC"
+			sh 'python3 mjping.py -l ECC'
+		  }
+		}
+	    stage('HANA') {
+		  steps {
+		    echo "Teste HANA"
+			sh 'python3 mjping.py -l HANA'
+		  }
+		}
+	    stage('PI') {
+		  steps {
+		    echo "Teste PI"
+			sh 'python3 mjping.py -l PI'
+		  }
+		}
+	  }
+	}
+
+    stage('Teste unitário grupo 02') {
+	  parallel {
+	    stage('Serviços') {
+		  steps {
+		    echo "Teste Serviços"
+			sh 'python3 mjping.py -l SERVICOS'
+		  }
+		}
+	    stage('WebDispacher') {
+		  steps {
+		    echo "Teste WDISPACHER"
+			sh 'python3 mjping.py -l WDISPACHER'
+		  }
+		}
+	    stage('SOLMAN') {
+		  steps {
+		    echo "Teste SOLMAN"
+			sh 'python3 mjping.py -l SOLMAN'
+		  }
+		}
+	  }
+	}
+
+    stage('Teste unitário grupo 03') {
+	  parallel {
+	    stage('NFE') {
+		  steps {
+		    echo "Teste NFE"
+			sh 'python3 mjping.py -l NFE'
+		  }
+		}
+	    stage('PWSATI') {
+		  steps {
+		    echo "Teste PWSATI"
+			sh 'python3 mjping.py -l PWSATI'
+		  }
+		}
+	    stage('SLD') {
+		  steps {
+		    echo "Teste SLD"
+			sh 'python3 mjping.py -l SLD'
+		  }
+		}
+	    stage('PC-RM') {
+		  steps {
+		    echo "Teste PC-RM"
+			sh 'python3 mjping.py -l PC-RM'
+		  }
+		}
+	  }
+	}
+
+    stage('Teste unitário grupo 04') {
+	  parallel {
+	    stage('SAPBO') {
+		  steps {
+		    echo "Teste SAPBO"
+			sh 'python3 mjping.py -l SAPBO'
+		  }
+		}
+	    stage('SAPCONSOLE') {
+		  steps {
+		    echo "Teste SAPCONSOLE"
+			sh 'python3 mjping.py -l SAPCONSOLE'
+		  }
+		}
+	  }
+	}
+
+    stage('Envio relatório'){
+      steps {
+        echo 'Envio de email'
+      }
+    }
+    stage('Apagando ambiente de testes'){
+      steps {
+        sh 'rm -rf ' + json_temp
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+*.json
+devices
+conf
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+misc.xml
+vcs.xml
+modules.xml
+NetJarvis.iml

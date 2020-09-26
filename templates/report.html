@@ -1,0 +1,71 @@
+<HTML>
+  <HEAD>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <TITLE> Analise de Ambiente </TITLE>
+
+    <style type="text/css">
+      table
+      {
+        font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+        width:65%;
+        border-collapse:collapse;
+      }
+      table td, th
+      {
+        font-size:small;
+        border:1px solid #2424FF;
+        padding:1px 1px 1px 1px;
+      }
+      table th
+      {
+        font-size:medium;
+        text-align:left;
+        padding-top:1px;
+        padding-bottom:1px;
+        background-color:#2E82FF;
+        color:#fff;
+      }
+      table tr.alt td
+      {
+        color:#000;
+        background-color:#D6EDFF;
+      }
+    </style>
+
+  </HEAD>
+
+  <BODY BGCOLOR=\042white\042 LINK=\042blue\042 VLINK=\042blue\042>
+
+    <h2><CENTER>Validação de ambiente sob visao de redes</CENTER></h2>
+    <h3><CENTER>Desenvolvido por Thiago Marques</CENTER></h3>
+
+    <hr NOSHADE WIDTH="100%">
+    <h2><a name=\042home\042></a>Analise de ambiente </h2>
+    <hr NOSHADE WIDTH="100%">
+
+    <table>
+      <tr>
+         <th>Serviço</th>
+         <th>Servidor</th>
+         <th>IP</th>
+	     <th>Status</th>
+      </tr>
+
+	 {% for ic, value in db_devices.items() -%}
+          <tr>
+            <td>{{db_devices[ic]['service']}}</td>
+            <td>{{db_devices[ic]['name']}}</td>
+            <td>{{db_devices[ic]['ipaddr']}}</td>
+	    <td>{{db_devices[ic]['status']}}</td>
+          </tr>
+         {% endfor %}
+
+    </table>
+
+    <h3> Relatório </h3>
+    Total equipamentos disponiveis: {{ devup }} <br>
+    Total equipamentos indisponiveis: {{ devdown }} <br>
+
+    <hr NOSHADE WIDTH=\042100%\042>
+  </BODY>
+</HTML>
