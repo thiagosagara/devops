@@ -11,3 +11,4 @@ vcs.xml
 modules.xml
 NetJarvis.iml
 .idea
+.gitignore
