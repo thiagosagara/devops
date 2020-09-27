@@ -16,6 +16,7 @@ import socket
 import napalm
 import nmap
 import time, sys, os, subprocess
+from netaddr import *
 from snmp_cmds import Session, snmpwalk
 from pprint import pprint
 from datetime import datetime
@@ -23,67 +24,46 @@ from datetime import datetime
 
 #Classe self
 class Begin:
-    def __init__(self):
+    def __init__(self, dbug):
+        # Variavel para debug
         pass
 
-
-
-class TryIcmp():
+#herda a classe Begin
+class TryIcmp(Begin):
     '''
     recebe        -> rede
     processa      -> pinga    a    rede    toda
     devolve       -> lista    up | lista    down
     '''
-    def __init__(self, dbug):
-        # Variavel para debug
+    def __init__(self, dbug, net_target):
+        #herda o parametro dbug
+        #super().__init__(dbug)
+        self._net_target = IPNetwork(net_target)
         self.dbug = dbug
 
-    def load_ics(self, devices_filename = 'devices'):
+    def get_range(self):
+
+        dest = self._net_target
+        ic_info = []
 
         if self.dbug == 1:
-            print('[INFO] - Carrega o arquivo com os ICs')
+            print('[INFO] - Valida se o ip digitado é um /32')
 
-        devices = {}
-        # Abre o arquivo que contem os equipamentos
-        with open( devices_filename ) as device_file:
-            for device_line in device_file:
-                # Cria uma lista com os equips (colocando todos em UP.
-                ic_info = list(map(str.upper, device_line.strip().split(',')))
+        if dest.prefixlen == 32:
+            ic_info.append(dest[0])
 
+        else:
+            if self.dbug == 1:
+                print('[INFO] - Coleta a lista de todos os ips no range')
 
-                # Cria um dicionario secundario para cada equipamento no arquivo
-                # na linha abaixo, ele joga esta informacao no dicionario criado no comeco da funcao
-                ic = {
-                    "name":ic_info[0],
-                    "ipaddr":ic_info[1],
-                    "dev_type": ic_info[2],
-                    "username": ic_info[3],
-                    "password": ic_info[4],
-                    "acc_method": ic_info[5]
-                }
+            for ip in dest.iter_hosts():
+                ic_info.append(ip)
 
-                if self.dbug == 1:
-                    print('[INFO] - Carregado as informações de um ic da lista')
-                elif self.dbug == 2:
-                    print('[INFO] - Carregado as informações de um ic da lista')
-                    print('[DEBUG] - Informações do IC: \n\t{0} \n\t{1} \n\t{2} \n\t{3} \n\t{4} \n\t{5} \n\t{6}'
-                          .format(ic_info[0],ic_info[1],ic_info[2],ic_info[3],ic_info[4],ic_info[5],ic_info[6]))
+        return ic_info
 
-                devices[ic['ipaddr']] = ic
-
+    def shoot_icmp(self, devices):
         if self.dbug == 1:
-            print('[INFO] - lista de equipamentos')
-            print( devices )
-
-        return devices
-
-
-
-    def shoot_icmp(self):
-
-
-
-        pass
+            print('[INFO] - Iniciando disparos de icmp (ping) para a lista de devices')
 
 
 class TrySnmp():
@@ -96,7 +76,6 @@ class TrySnmp():
 
     def __init__(self):
         pass
-
 
 class TryScan():
     '''
@@ -124,6 +103,47 @@ class TryConnect():
     '''
     def __init__(self):
         pass
+
+    def load_ics(self, devices_filename='devices'):
+
+        if self.dbug == 1:
+            print('[INFO] - Carrega o arquivo com os ICs')
+
+        devices = {}
+        # Abre o arquivo que contem os equipamentos
+        with open(devices_filename) as device_file:
+            for device_line in device_file:
+                # Cria uma lista com os equips (colocando todos em UP.
+                ic_info = list(map(str.upper, device_line.strip().split(',')))
+
+                # Cria um dicionario secundario para cada equipamento no arquivo
+                # na linha abaixo, ele joga esta informacao no dicionario criado no comeco da funcao
+                ic = {
+                    "name": ic_info[0],
+                    "ipaddr": ic_info[1],
+                    "dev_type": ic_info[2],
+                    "username": ic_info[3],
+                    "password": ic_info[4],
+                    "acc_method": ic_info[5]
+                }
+
+                if self.dbug == 1:
+                    print('[INFO] - Carregado as informações de um ic da lista')
+                elif self.dbug == 2:
+                    print('[INFO] - Carregado as informações de um ic da lista')
+                    print('[DEBUG] - Informações do IC: \n\t{0} \n\t{1} \n\t{2} \n\t{3} \n\t{4} \n\t{5} \n\t{6}'
+                          .format(ic_info[0], ic_info[1], ic_info[2], ic_info[3], ic_info[4], ic_info[5], ic_info[6]))
+
+                devices[ic['ipaddr']] = ic
+
+        # transforma a lista (dict) em json
+        jsdevices = json.dumps(devices)
+
+        if self.dbug == 1:
+            print('[INFO] - lista de equipamentos em json')
+            print(jsdevices)
+
+        return jsdevices
 
     '''
     recebe 		-> lista de possiveis usuarios e senhas (criptografados)
