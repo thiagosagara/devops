@@ -38,6 +38,7 @@ class TryIcmp(Begin):
     def __init__(self, dbug, net_target):
         #herda o parametro dbug
         #super().__init__(dbug)
+        super().__init__(dbug)
         self._net_target = IPNetwork(net_target)
         self.dbug = dbug
 
@@ -64,6 +65,8 @@ class TryIcmp(Begin):
     def shoot_icmp(self, devices):
         if self.dbug == 1:
             print('[INFO] - Iniciando disparos de icmp (ping) para a lista de devices')
+
+
 
 
 class TrySnmp():
